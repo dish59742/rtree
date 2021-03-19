@@ -116,6 +116,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       CIBW_SKIP: pp* *-win32
+      CIBW_ARCHS_LINUX: auto aarch64
       CIBW_TEST_REQUIRES: pytest numpy
       CIBW_TEST_COMMAND: "pytest -v {project}/tests"
       # we are copying the shared libraries ourselves so skip magical copy
@@ -133,7 +134,10 @@ jobs:
         python-version: '3.7'
     - name: Install cibuildwheel
       run: |
-        python -m pip install cibuildwheel==1.6.4
+        python -m pip install cibuildwheel==1.10.0
+    - uses: docker/setup-qemu-action@v1
+      if: runner.os == 'Linux'
+      name: Set up QEMU
     - name: Run MacOS Preinstall Build
       if: startsWith(matrix.os, 'macos')
       run: |
