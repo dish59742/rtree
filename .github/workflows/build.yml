@@ -116,7 +116,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       CIBW_SKIP: pp* *-win32
-      CIBW_ARCHS_LINUX: auto aarch64
       CIBW_TEST_REQUIRES: pytest numpy
       CIBW_TEST_COMMAND: "pytest -v {project}/tests"
       # we are copying the shared libraries ourselves so skip magical copy
